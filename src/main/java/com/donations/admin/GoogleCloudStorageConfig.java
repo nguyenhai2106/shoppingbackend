@@ -15,10 +15,10 @@ import com.google.cloud.storage.StorageOptions;
 public class GoogleCloudStorageConfig {
 	@Bean
 	Storage googleCloudStorage() throws IOException {
-		String credentialsJson = System.getenv("GCS_CREDENTIALS_JSON");
+		String credentialsFilePath = System.getenv("GCS_CREDENTIALS_JSON");
 		String projectId = System.getenv("GCS_PROJECT_ID");
-
-		Credentials credentials = GoogleCredentials.fromStream(new ByteArrayInputStream(credentialsJson.getBytes()));
+		Resource credentialsResource = new FileSystemResource(credentialsFilePath);
+		Credentials credentials = GoogleCredentials.fromStream(credentialsResource.getInputStream());
 		return StorageOptions.newBuilder().setCredentials(credentials).setProjectId(projectId).build().getService();
 	}
 }
