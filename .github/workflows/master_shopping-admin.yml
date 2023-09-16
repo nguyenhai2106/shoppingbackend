@@ -49,5 +49,5 @@ jobs:
         with:
           app-name: 'shopping-admin'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_90659B051581476E814F266E3DD14B82 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_1B20196572C64C2EA7D5A59BC8ED8A9C }}
           package: '*.jar'
