@@ -43,7 +43,8 @@ public class CustomerController {
 	@GetMapping("/customers/{id}/enabled/{status}")
 	public String updateCustomerEnabledStatus(@PathVariable("id") Integer id, @PathVariable("status") boolean enabled,
 			RedirectAttributes redirectAttributes, @RequestParam("pageNum") String pageNum,
-			@RequestParam("sortField") String sortField, @RequestParam("sortDir") String sortDir, @RequestParam("keyword") String keyword) {
+			@RequestParam("sortField") String sortField, @RequestParam("sortDir") String sortDir,
+			@RequestParam("keyword") String keyword) {
 		customerService.updateCustomerEnabledStatus(id, enabled);
 		String status = enabled ? "enabled" : "disabled";
 		String message = "The Customer ID " + id + " has been " + status;
@@ -56,29 +57,14 @@ public class CustomerController {
 	}
 
 	@GetMapping("/customers/delete/{id}")
-	public String deleteCustomer(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes,
-			@RequestParam("pageNum") String pageNum, @RequestParam("sortField") String sortField, @RequestParam("sortDir") String sortDir,
-			@RequestParam("keyword") String keyword) {
+	public String deleteCustomer(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
 		try {
 			customerService.delete(id);
 			redirectAttributes.addFlashAttribute("message", "The customer Id " + id + " has bean deleted successfully");
 		} catch (Exception e) {
 			redirectAttributes.addFlashAttribute("message", e.getMessage());
 		}
-		if (keyword == null || keyword.isEmpty() || keyword.equals("null")) {
-			keyword = "";
-		}
-		if (pageNum == null || pageNum.isEmpty() || pageNum.equals("null")) {
-			pageNum = "1";
-		}
-		if (sortField == null || sortField.isEmpty() || sortField.equals("null")) {
-			sortField = "id";
-		}
-		if (sortDir == null || sortDir.isEmpty() || sortDir.equals("null")) {
-			sortDir = "asc";
-		}
-		return "redirect:/customers/page/" + pageNum + "?sortField=" + sortField + "&sortDir=" + sortDir + "&keyword="
-				+ keyword;
+		return defaultRedirectURL;
 	}
 
 	@GetMapping("/customers/edit/{id}")
