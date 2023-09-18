@@ -28,9 +28,12 @@ public class CategoryController {
 	@Autowired
 	private CategoryService service;
 
+	@Autowired
+	private GoogleCloudStorageService googleService;
+
 	@GetMapping("/categories")
-	public String listFirstPage(Model model) {
-		return "redirect:/categories/page/1?sortField=firstName&sortDir=asc";
+	public String listFirstPage(String sortDir, Model model) {
+		return listByPage(1, sortDir, model, null);
 	}
 
 	@GetMapping("/categories/page/{pageNum}")
@@ -93,16 +96,12 @@ public class CategoryController {
 //			FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
 			GoogleCloudStorageService.removeFolder(uploadDir);
 			GoogleCloudStorageService.uploadFile(uploadDir, fileName, multipartFile.getInputStream());
+		} else {
+			service.save(category);
 		}
-		service.save(category);
-		redirectAttributes.addFlashAttribute("message", "The category has been save!");
+		redirectAttributes.addFlashAttribute("message", "The category has been saved successfully!");
 		return "redirect:/categories";
 	}
-
-//	private String getRedirectURLToAffectedUser(Category category) {
-//		String firstPartOfEmail = user.getEmail().split("@")[0];
-//		return "redirect:/users/page/1?sortField=id&sortDir=asc&keyword=" + firstPartOfEmail;
-//	}
 
 	@GetMapping("categories/edit/{id}")
 	public String editUser(@PathVariable(name = "id") Integer id, RedirectAttributes redirectAttributes, Model model) {
@@ -129,8 +128,8 @@ public class CategoryController {
 			String categoryDir = "category-images/" + id + "/" + category.getImage();
 			GoogleCloudStorageService.removeFolder(categoryDir);
 //			FileUploadUtil.removeDir(categoryDir);
-			redirectAttributes.addFlashAttribute("message",
-					"The user with ID " + id + " has been deleted successfully!");
+			String message = "The user with ID " + id + " has been deleted successfully!";
+			redirectAttributes.addFlashAttribute("message", message);
 		} catch (CategoryNotFoundException e) {
 			redirectAttributes.addFlashAttribute("message", e.getMessage());
 		}
@@ -144,7 +143,7 @@ public class CategoryController {
 			@RequestParam("keyword") String keyword) throws CategoryNotFoundException {
 		service.updateCategoryEnabledStatus(id, enabled);
 		String status = enabled ? "Enabled" : "Disabled";
-		String message = "The user ID " + id + " has been " + status;
+		String message = "The category ID " + id + " has been " + status;
 		redirectAttributes.addFlashAttribute("message", message);
 		if (keyword == null || keyword.isEmpty() || keyword.equals("null")) {
 			keyword = "";

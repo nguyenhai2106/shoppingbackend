@@ -49,7 +49,7 @@
 					<tr th:each="brand : ${listBrands}">
 						<td class="text-center align-middle">[[${brand.getId()}]]</td>
 						<td class="text-center align-middle">
-							<img alt="Brand Logo" th:src="@{${brand.getLogoPath()}}" class="img-fluid border">
+							<img alt="Brand Logo" th:src="@{${brand.getLogoPath()}}" class="img-fluid border" style="width: 149px; height: auto;">
 						</td>
 						<td class="align-middle text-center">[[${brand.getName()}]]</td>
 						

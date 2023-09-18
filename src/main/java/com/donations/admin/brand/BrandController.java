@@ -32,6 +32,9 @@ public class BrandController {
 	@Autowired
 	private CategoryService categoryService;
 
+	@Autowired
+	private GoogleCloudStorageService googleService;
+
 	@GetMapping("/brands")
 	public String listAll() {
 		return defaultRedirectURL;
@@ -54,18 +57,19 @@ public class BrandController {
 		if (!multipartFile.isEmpty()) {
 			String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 			brand.setLogo(fileName);
-
 			Brand savedBrand = service.save(brand);
 			String uploadDir = "brand-logos/" + savedBrand.getId();
 //			FileUploadUtil.removeDir(uploadDir);
 //			FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
 			GoogleCloudStorageService.removeFolder(uploadDir);
 			GoogleCloudStorageService.uploadFile(uploadDir, fileName, multipartFile.getInputStream());
+			redirectAttributes.addFlashAttribute("message", "The brand has been saved successfully!");
+			return "redirect:/brands";
 		} else {
 			service.save(brand);
+			redirectAttributes.addFlashAttribute("message", "The brand has been saved successfully!");
+			return defaultRedirectURL;
 		}
-		redirectAttributes.addFlashAttribute("message", "The brand has been saved successfully!");
-		return "redirect:/brands";
 	}
 
 	@GetMapping("/brands/delete/{id}")
@@ -81,7 +85,7 @@ public class BrandController {
 		} catch (BrandNotFoundException e) {
 			redirectAttributes.addFlashAttribute("message", e.getMessage());
 		}
-		return "redirect:/brands";
+		return defaultRedirectURL;
 	}
 
 	@GetMapping("/brands/edit/{id}")
@@ -95,7 +99,7 @@ public class BrandController {
 			return "brands/brand_form";
 		} catch (BrandNotFoundException e) {
 			redirectAttributes.addFlashAttribute("message", e.getMessage());
-			return "redirect:/brands";
+			return defaultRedirectURL;
 		}
 	}
 
