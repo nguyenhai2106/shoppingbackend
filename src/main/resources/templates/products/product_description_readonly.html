@@ -4,14 +4,14 @@
 <body>
 	<div th:fragment="content" th:remove="tag">
 		<div class="p-2">
-			<label for="shortDescription" class="form-label fw-bold">Short
-				Description</label>
+			<h5 for="shortDescription" class="form-label fw-bold">Short
+				Description</h5>
 			<div class="border rounded p-2"
 				th:utext="${product.shortDescription}"></div>
 		</div>
 		<div class="p-2">
-			<label for="fullDescription" class="form-label fw-bold">Full
-				Description</label>
+			<h5 for="fullDescription" class="form-label fw-bold">Full
+				Description</h5>
 			<div class="border rounded p-2" th:utext="${product.fullDescription}"></div>
 		</div>
 	</div>

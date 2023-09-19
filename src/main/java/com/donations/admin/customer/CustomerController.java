@@ -87,7 +87,7 @@ public class CustomerController {
 		customerService.save(customer);
 		redirectAttributes.addFlashAttribute("message",
 				"The customer ID " + customer.getId() + " has been updated successfully.");
-		return "redirect:/customers/page/1?sortField=id&sortDir=asc&keyword=" + customer.getFirstName();
+		return "redirect:/customers/page/1?sortField=id&sortDir=asc&keyword=" + customer.getEmail();
 	}
 
 	@GetMapping("/customers/detail/{id}")

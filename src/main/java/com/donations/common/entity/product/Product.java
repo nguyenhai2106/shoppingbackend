@@ -38,8 +38,8 @@ public class Product extends IdBaseEntity {
 	public Product(String productName) {
 		this.name = productName;
 	}
-	
-	public Product(Integer id ) {
+
+	public Product(Integer id) {
 		this.id = id;
 	}
 
@@ -66,30 +66,22 @@ public class Product extends IdBaseEntity {
 	@Column(name = "in_stock")
 	private boolean inStock = true;
 
-	@Nationalized
-	@Column(columnDefinition = "float default 0.0")
 	private float cost;
 
-	@Nationalized
-	@Column(columnDefinition = "float default 0.0")
 	private float price;
 
-	@Column(name = "discount_percent", columnDefinition = "float default 0.0")
+	@Column(name = "discount_percent")
 	private float discountPercent;
 
-	@Column(columnDefinition = "float default 0.0")
 	private float length;
 
-	@Column(columnDefinition = "float default 0.0")
 	private float width;
 
-	@Column(columnDefinition = "float default 0.0")
 	private float height;
 
-	@Column(columnDefinition = "float default 0.0")
 	private float weight;
 
-	@Column(name = "main_image", nullable = false, columnDefinition = "varchar(1024) default 'default-images.png'")
+	@Column(name = "main_image", nullable = false)
 	private String mainImage;
 
 	@ManyToOne
@@ -105,6 +97,32 @@ public class Product extends IdBaseEntity {
 
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<ProductDetails> details = new HashSet<>();
+
+	private int reviewCount;
+
+	private float averageRating;
+
+	public int getReviewCount() {
+		return reviewCount;
+	}
+
+	@Transient
+	private boolean customerCanReview;
+
+	@Transient
+	private boolean reviewedByCustomer;
+
+	public void setReviewCount(int reviewCount) {
+		this.reviewCount = reviewCount;
+	}
+
+	public float getAverageRating() {
+		return averageRating;
+	}
+
+	public void setAverageRating(float averageRating) {
+		this.averageRating = averageRating;
+	}
 
 	public String getName() {
 		return name;
