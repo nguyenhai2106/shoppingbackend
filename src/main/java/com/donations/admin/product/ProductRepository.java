@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.donations.common.entity.product.Product;
 
-
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 
 	public Product findByName(String name);
@@ -26,13 +25,14 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 	public Page<Product> findAllWithCategory(Integer id, String categoryIdMatch, Pageable pageable);
 
 	@Query("SELECT p FROM Product p WHERE (p.category.id = ?1 OR p.category.allParentIDs LIKE %?2%) AND "
-			+ "(p.name LIKE %?3% "
-			+ "OR p.shortDescription LIKE %?3% "
-			+ "OR p.fullDescription LIKE %?3% "
-			+ "OR p.brand.name LIKE %?3% "
-			+ "OR p.category.name LIKE %?3%)")
+			+ "(p.name LIKE %?3% " + "OR p.shortDescription LIKE %?3% " + "OR p.fullDescription LIKE %?3% "
+			+ "OR p.brand.name LIKE %?3% " + "OR p.category.name LIKE %?3%)")
 	public Page<Product> searchWithCategory(Integer id, String categoryIdMatch, String keyword, Pageable pageable);
-	
+
 	@Query("SELECT p FROM Product p WHERE p.name LIKE %?1%")
 	public Page<Product> searchProductsByName(String keyword, Pageable pageable);
+
+	@Query("UPDATE Product p SET p.reviewCount = (SELECT COUNT(r.id) FROM Review r WHERE r.product.id = ?1), p.averageRating = CAST(COALESCE((SELECT AVG(r.rating) FROM Review r WHERE r.product.id=?1), 0) AS FLOAT)")
+	@Modifying
+	public void updateReviewCountAndAverageRating(Integer productId);
 }

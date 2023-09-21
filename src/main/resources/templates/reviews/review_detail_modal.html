@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<div class="modal-header border">
+	<h4 class="modal-title">Review Details</h4>
+	<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
+</div>
+<div class="rounded p-4 pe-0 pb-2">
+	<div class="input-group mb-3 row">
+		<label class="col-sm-3 col-form-label">Review Id</label>
+		<div class="col-sm-9">
+			<input type="text" class="form-control" th:value="${review.id}" readonly="readonly" disabled />
+		</div>
+	</div>
+	<div class="input-group mb-3 row">
+		<label class="col-sm-3 col-form-label">Product</label>
+		<div class="col-sm-9">
+			<input type="text" class="form-control" th:value="${review.product.name}" readonly="readonly" disabled/>
+		</div>
+	</div>
+	<div class="input-group mb-3 row">
+		<label class="col-sm-3 col-form-label">Customer</label>
+		<div class="col-sm-9">
+			<input type="email" class="form-control" th:value="${review.customer.fullName}" readonly="readonly" disabled/>
+		</div>
+	</div>
+	<div class="input-group mb-3 row">
+		<label class="col-sm-3 col-form-label">Headline</label>
+		<div class="col-sm-9">
+			<input type="text" class="form-control" th:value="${review.headline}" readonly="readonly" disabled/>
+		</div>
+	</div>
+	<div class="input-group mb-3 row">
+		<label class="col-sm-3 col-form-label">Rating</label>
+		<div class="col-sm-9">
+			<input type="number" class="form-control" th:value="${review.rating}" readonly="readonly" disabled/>
+		</div>
+	</div>
+	<div class="input-group mb-3 row">
+		<label class="col-sm-3 col-form-label">Comment</label>
+		<div class="col-sm-9">
+			<textarea class="form-control" rows="3" disabled>[[${review.comment}]]</textarea>
+		</div>
+	</div>
+	<div class="input-group mb-3 row">
+		<label class="col-sm-3 col-form-label">Review Time</label>
+		<div class="col-sm-9">
+			<input type="text" class="form-control" th:value="${review.reviewTime}" readonly="readonly" disabled/>
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+	<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+</div>
+
+</html>
+
+</html>

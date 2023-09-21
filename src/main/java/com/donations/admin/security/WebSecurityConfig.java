@@ -49,6 +49,8 @@ public class WebSecurityConfig {
 
 				.requestMatchers("/orders_shipper/update/").hasAuthority("Shipper")
 
+				.requestMatchers("/reviews/**").hasAnyAuthority("Admin", "Assistant")
+				
 				.anyRequest().authenticated().and()
 				.formLogin(login -> login.loginPage("/login").usernameParameter("email").loginProcessingUrl("/login")
 						.defaultSuccessUrl("/", true).permitAll())

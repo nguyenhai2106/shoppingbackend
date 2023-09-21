@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragments :: page_head(${pageTitle}, 'none')}" />
+
+<body>
+	<div class="container-fluid">
+		<div th:replace="~{navigation :: navigationMenu}"></div>
+		<div align="center" class="mt-4">
+			<h3>Manage Review | [[${pageTitle}]]</h3>
+		</div>
+		<form th:action="@{/reviews/save}" method="post" style="max-width: 800px; margin: 30px auto;"
+			th:object="${review}" enctype="multipart/form-data">
+			<input type="hidden" th:field="*{id}" />
+			<div class="border border-secondary rounded p-4 pe-0">
+				<div class="input-group mb-3 row">
+					<label class="col-sm-3 col-form-label">Review Id</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" th:value="${id}" readonly="readonly" disabled />
+					</div>
+				</div>
+				<div class="input-group mb-3 row">
+					<label class="col-sm-3 col-form-label">Product</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" th:field="${review.product.name}" readonly="readonly"
+							disabled />
+					</div>
+				</div>
+				<div class="input-group mb-3 row">
+					<label class="col-sm-3 col-form-label">Customer</label>
+					<div class="col-sm-9">
+						<input type="email" class="form-control" th:value="${review.customer.fullName}"
+							readonly="readonly" disabled />
+					</div>
+				</div>
+				<div class="input-group mb-3 row">
+					<label class="col-sm-3 col-form-label">Rating</label>
+					<div class="col-sm-9">
+						<input type="number" class="form-control" th:value="${review.rating}" readonly="readonly"
+							disabled />
+					</div>
+				</div>
+				<div class="input-group mb-3 row">
+					<label class="col-sm-3 col-form-label">Review Time</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" th:value="${review.reviewTime}" readonly="readonly"
+							disabled />
+					</div>
+				</div>
+				<div class="input-group mb-3 row">
+					<label class="col-sm-3 col-form-label">Headline</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" th:field="*{headline}" />
+					</div>
+				</div>
+				<div class="input-group mb-3 row">
+					<label class="col-sm-3 col-form-label">Comment</label>
+					<div class="col-sm-9">
+						<textarea class="form-control" rows="3" th:field="*{comment}"></textarea>
+					</div>
+				</div>
+				<div class="mt-4 text-center">
+					<input type="submit" value="Save" class="btn btn-primary me-2" />
+					<input type="button" value="Cancel" class="btn btn-secondary" id="buttonCancel" />
+				</div>
+			</div>
+		</form>
+		<div th:replace="~{modal_fragments :: modal_dialog}"></div>
+		<div th:replace="~{fragments :: footer}"></div>
+	</div>
+	<script type="text/javascript">
+		contextPath = "[[@{/}]]";
+		moduleURL = "[[@{/reviews}]]";	
+	</script>
+	<script th:src="@{/js/common_form.js}"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+		crossorigin="anonymous"></script>
+</body>
+
+</html>

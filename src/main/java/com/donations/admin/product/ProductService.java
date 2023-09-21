@@ -79,7 +79,6 @@ public class ProductService {
 
 	public Product getById(Integer id) throws ProductNotFoundException {
 		try {
-			System.out.println("DEBUGS: " + id);
 			return repository.findById(id).get();
 		} catch (NoSuchElementException e) {
 			throw new ProductNotFoundException("Could not find any product with ID " + id);
